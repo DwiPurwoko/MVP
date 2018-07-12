@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "com.dwist.mvp"
+        minSdkVersion 15
+        //noinspection OldTargetApi
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        staging {
+            applicationIdSuffix ".staging"
+            buildConfigField("boolean", "SHOW_VARIANT", "true")
+            buildConfigField("String", "ENV", "\"http://staging.yourdomain.com\"")
+        }
+
+        unittest {
+            applicationIdSuffix ".test"
+            buildConfigField("boolean", "SHOW_VARIANT", "true")
+            buildConfigField("String", "ENV", "\"http://test.yourdomain.com\"")
+        }
+
+        production {
+            applicationIdSuffix ".production"
+            buildConfigField("String", "BASE_URL", "\"https://www.googleapis.com/books/v1/\"")
+        }
+    }
+
+    flavorDimensions "default"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    testImplementation 'junit:junit:4.12'
+
+    //network
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'javax.annotation:javax.annotation-api:1.2'
+    implementation 'io.reactivex:rxjava:1.2.9'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+    implementation 'com.google.guava:guava:22.0'
+
+    //image loader
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    //    DAGGER
+    //    compile 'com.google.dagger:dagger:2.8'
+    //    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+}
